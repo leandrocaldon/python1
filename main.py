@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+from fastapi import FastAPI, UploadFile, File
+from pydantic import BaseModel
+import easyocr
+import shutil
+import os
+import traceback
 app = FastAPI()
 
 #--------------------------------------------------------------
