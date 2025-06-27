@@ -72,3 +72,49 @@ def numeros(numero: number):
     }
 
 #--------------------------------------------------------------
+@app.post("/ocr/")
+def extraer_texto(file: UploadFile = File(...)):
+    try:
+        # Guardar el archivo temporalmente
+        temp_path = f"temp_{file.filename}"
+        with open(temp_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        # Crear el lector de easyocr
+        reader = easyocr.Reader(['es', 'en'])
+        resultado = reader.readtext(temp_path, detail=0)
+        print(f"[DEBUG] Resultado OCR: {resultado}")
+
+        # Eliminar el archivo temporal
+        os.remove(temp_path)
+
+        return {"texto_extraido": resultado}
+    except Exception as e:
+        print(f"[ERROR] {e}")
+        print(traceback.format_exc())
+        return {"error": str(e)}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
